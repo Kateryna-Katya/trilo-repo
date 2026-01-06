@@ -1,73 +1,87 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Инициализация иконок
     lucide.createIcons();
 
-    // 1. Мобильное меню
-    const burger = document.getElementById('burger-menu');
+    // 1. МОБИЛЬНОЕ МЕНЮ (Исправлено)
+    const burger = document.getElementById('burger-toggle');
     const nav = document.getElementById('nav-menu');
-    
-    burger.addEventListener('click', () => {
-        nav.classList.toggle('active');
+    const navLinks = document.querySelectorAll('.nav__link');
+
+    const toggleMenu = () => {
         burger.classList.toggle('active');
+        nav.classList.toggle('active');
+        document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+    };
+
+    burger.addEventListener('click', toggleMenu);
+
+    // Закрытие при клике на ссылку
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (nav.classList.contains('active')) toggleMenu();
+        });
     });
 
-    // 2. Скролл хедера
+    // 2. СКРОЛЛ ХЕДЕРА
     window.addEventListener('scroll', () => {
         const header = document.querySelector('.header');
         header.classList.toggle('header--scrolled', window.scrollY > 50);
     });
 
-    // 3. Интерактив в Hero (Параллакс мыши)
+    // 3. ПАРАЛЛАКС В HERO
     const hero = document.querySelector('.hero');
     hero.addEventListener('mousemove', (e) => {
-        const x = e.clientX / window.innerWidth;
-        const y = e.clientY / window.innerHeight;
-        document.querySelector('.hero__blob').style.transform = `translate(${x * 50}px, ${y * 50}px)`;
+        const moveX = (e.clientX - window.innerWidth / 2) * 0.05;
+        const moveY = (e.clientY - window.innerHeight / 2) * 0.05;
+        document.querySelector('.hero__blob').style.transform = `translate(${moveX}px, ${moveY}px)`;
     });
 
-    // 4. Капча
-    const captchaQ = document.getElementById('captcha-question');
-    const num1 = Math.floor(Math.random() * 10);
-    const num2 = Math.floor(Math.random() * 10);
-    const correctAnswer = num1 + num2;
-    captchaQ.innerText = `${num1} + ${num2} = `;
+    // 4. КАПЧА (Математическая)
+    const captchaText = document.getElementById('captcha-text');
+    const n1 = Math.floor(Math.random() * 9) + 1;
+    const n2 = Math.floor(Math.random() * 9) + 1;
+    const answer = n1 + n2;
+    if(captchaText) captchaText.innerText = `${n1} + ${n2} =`;
 
-    // 5. Валидация телефона (только цифры)
+    // 5. ВАЛИДАЦИЯ ТЕЛЕФОНА
     const phoneInput = document.getElementById('phone-input');
-    phoneInput.addEventListener('input', (e) => {
-        e.target.value = e.target.value.replace(/\D/g, '');
-    });
-
-    // 6. Отправка формы (AJAX имитация)
-    const form = document.getElementById('main-form');
-    const formMsg = document.getElementById('form-message');
-
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const userAnswer = parseInt(document.getElementById('captcha-answer').value);
-
-        if (userAnswer !== correctAnswer) {
-            alert('Ошибка в капче!');
-            return;
-        }
-
-        form.style.opacity = '0.5';
-        form.style.pointerEvents = 'none';
-
-        setTimeout(() => {
-            form.reset();
-            form.style.display = 'none';
-            formMsg.innerText = 'Спасибо! Мы свяжемся с вами в течение 15 минут.';
-            formMsg.classList.add('success');
-        }, 1500);
-    });
-
-    // 7. Cookie Popup
-    if (!localStorage.getItem('cookieAccepted')) {
-        const popup = document.getElementById('cookie-popup');
-        popup.classList.add('active');
-        document.getElementById('cookie-accept').addEventListener('click', () => {
-            localStorage.setItem('cookieAccepted', 'true');
-            popup.classList.remove('active');
+    if(phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/\D/g, '');
         });
     }
+
+    // 6. ОТПРАВКА ФОРМЫ
+    const form = document.getElementById('contact-form');
+    const successMsg = document.getElementById('form-ok');
+
+    if(form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const userAns = parseInt(document.getElementById('captcha-input').value);
+
+            if(userAns !== answer) {
+                alert('Неверный ответ капчи!');
+                return;
+            }
+
+            // Имитация AJAX
+            form.style.opacity = '0.5';
+            setTimeout(() => {
+                form.reset();
+                form.style.display = 'none';
+                successMsg.style.display = 'block';
+            }, 1000);
+        });
+    }
+
+    // 7. COOKIE POPUP
+    const cookieBar = document.getElementById('cookie-bar');
+    if(!localStorage.getItem('trilo_cookies')) {
+        setTimeout(() => cookieBar.classList.add('active'), 2000);
+    }
+    document.getElementById('cookie-ok').addEventListener('click', () => {
+        localStorage.setItem('trilo_cookies', 'true');
+        cookieBar.classList.remove('active');
+    });
 });
