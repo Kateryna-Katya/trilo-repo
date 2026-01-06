@@ -27,10 +27,22 @@
     </main>
 
     <load src="./partials/footer.html" />
-<div class="cookie-popup" id="cookie-popup">
-  <p>Этот сайт использует cookies для улучшения работы. Подробнее — в нашей <a href="./cookies.html">Cookie политике</a>.
-  </p>
-  <button class="btn btn--primary" id="cookie-accept">Принять</button>
+<div class="cookie-card" id="cookie-popup">
+  <div class="cookie-card__glow"></div>
+  <div class="cookie-card__content">
+    <div class="cookie-card__icon">
+      <i data-lucide="shield-check"></i>
+    </div>
+    <div class="cookie-card__text">
+      <h4>Конфиденциальность данных</h4>
+      <p>Мы используем cookies для оптимизации вашей работы на платформе <span>Trilo-Repo</span>. Продолжая, вы
+        соглашаетесь с нашей <a href="./cookies.html">политикой конфиденциальности</a>.</p>
+    </div>
+    <div class="cookie-card__actions">
+      <button class="btn btn--primary btn--sm" id="cookie-accept">Принять всё</button>
+      <button class="btn btn--outline btn--sm" id="cookie-settings">Настроить</button>
+    </div>
+  </div>
 </div>
     <script type="module" src="./main.js"></script>
   </body>

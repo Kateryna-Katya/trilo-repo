@@ -833,3 +833,109 @@ h5 {
         text-align: center;
     }
 }
+/* --- Cookie Popup Styling --- */
+.cookie-card {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    max-width: 450px;
+    z-index: 2000;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.cookie-card.active {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Фон с эффектом стекла и неоновой границей */
+.cookie-card__content {
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 20px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Внутреннее свечение */
+.cookie-card__glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top left, rgba(138, 43, 226, 0.15), transparent 70%);
+    border-radius: 20px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.cookie-card__icon {
+    width: 45px;
+    height: 45px;
+    background: rgba(0, 240, 255, 0.1);
+    color: var(--color-accent-cyan);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.2);
+}
+
+.cookie-card__text h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+.cookie-card__text p {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+}
+
+.cookie-card__text span {
+    color: var(--color-accent-cyan);
+    font-weight: 600;
+}
+
+.cookie-card__text a {
+    color: var(--color-accent-purple);
+    text-decoration: underline;
+}
+
+.cookie-card__actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* Уменьшенные кнопки для попапа */
+.btn--sm {
+    padding: 10px 20px;
+    font-size: 12px;
+}
+
+/* Адаптивность для мобилок */
+@media (max-width: 576px) {
+    .cookie-card {
+        left: 15px;
+        right: 15px;
+        bottom: 15px;
+        max-width: calc(100% - 30px);
+    }
+
+    .cookie-card__actions {
+        flex-direction: column;
+    }
+}
