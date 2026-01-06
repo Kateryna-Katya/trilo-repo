@@ -952,7 +952,7 @@ h5 {
 
 .pages__header h1 {
   margin-top: 20px;
-  font-size: clamp(32px, 5vw, 56px);
+  font-size: clamp(28px, 5vw, 56px);
 }
 
 .pages__content {
